@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiPagination.Data;
 
 namespace WebApiPagination.Data.Migrations
 {
     [DbContext(typeof(PlayerDbContext))]
-    partial class PlayerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210901211824_SeedTeamTable")]
+    partial class SeedTeamTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

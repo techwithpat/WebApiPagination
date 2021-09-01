@@ -11,6 +11,11 @@ namespace WebApiPagination.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
+
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
     }
