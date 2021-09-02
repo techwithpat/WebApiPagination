@@ -28,7 +28,7 @@ namespace WebApiPagination.Controllers
             }));
         }
 
-        [HttpGet("{companyId}/players")]
+        [HttpGet("{companyId}/employees")]
         public async Task<IActionResult> Get([FromRoute] int companyId)
         {
             var company = await _dbContext.Companies.FindAsync(companyId);
