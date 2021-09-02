@@ -28,8 +28,8 @@ namespace WebApiPagination.Controllers
             }));
         }
 
-        [HttpGet("{teamId}/players")]
-        public async Task<IActionResult> Get([FromRoute] long companyId)
+        [HttpGet("{companyId}/players")]
+        public async Task<IActionResult> Get([FromRoute] int companyId)
         {
             var company = await _dbContext.Companies.FindAsync(companyId);
             if (company == null) return NotFound();
