@@ -3,9 +3,9 @@ using WebApiPagination.Entities.Models;
 
 namespace WebApiPagination.Data
 {
-    public class PlayerDbContext : DbContext
+    public class CompanyDbContext : DbContext
     {
-        public PlayerDbContext(DbContextOptions<PlayerDbContext> options)
+        public CompanyDbContext(DbContextOptions<CompanyDbContext> options)
             :base(options)
         {
 
@@ -16,7 +16,7 @@ namespace WebApiPagination.Data
             modelBuilder.Seed();
         }
 
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<Player> Players { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

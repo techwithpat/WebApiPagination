@@ -21,7 +21,7 @@ namespace WebApiPagination
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PlayerDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<CompanyDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
