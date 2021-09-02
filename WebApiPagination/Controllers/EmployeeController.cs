@@ -15,10 +15,19 @@ namespace WebApiPagination.Controllers
         public EmployeeController(CompanyDbContext dbContext) => _dbContext = dbContext;
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] CursorParams @params)
         {
-            var employees = await _dbContext.Employees       
+            var employees = await _dbContext.Employees
+                .OrderBy(e => e.Id)
+                .Where(e => e.Id > @params.Cursor)
+                .Take(@params.Count)
                 .ToListAsync();
+
+            var nextCursor = employees.Any() 
+                ? employees.LastOrDefault()?.Id 
+                : 0;
+
+            Response.Headers.Add("X-Pagination", $"Next Cursor={nextCursor}");
           
             return Ok(employees.Select(e => new EmployeeDto
             {

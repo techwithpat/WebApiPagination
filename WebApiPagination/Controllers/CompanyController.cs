@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebApiPagination.Data;
 using WebApiPagination.Entities.Dtos;
@@ -29,16 +30,24 @@ namespace WebApiPagination.Controllers
         }
 
         [HttpGet("{companyId}/employees")]
-        public async Task<IActionResult> Get([FromRoute] int companyId)
+        public async Task<IActionResult> Get(
+            [FromRoute] int companyId,
+            [FromQuery] PaginationParams @params)
         {
             var company = await _dbContext.Companies.FindAsync(companyId);
             if (company == null) return NotFound();
 
-            var employees = await _dbContext.Employees.Where(p => p.Company.Id == companyId)
-                                                  .OrderBy(p => p.Id)
-                                                  .ToListAsync();            
+            var employees = _dbContext.Employees.Where(p => p.Company.Id == companyId)
+                                                .OrderBy(p => p.Id);                                                 
 
-            return Ok(employees.Select(e => new EmployeeDto
+            var paginationMetadata = new PaginationMetadata(employees.Count(), @params.Page, @params.ItemsPerPage);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+
+            var items = await employees.Skip((@params.Page - 1) * @params.ItemsPerPage)
+                                       .Take(@params.ItemsPerPage)
+                                       .ToListAsync();
+
+            return Ok(items.Select(e => new EmployeeDto
             {
                 Title = e.Title,
                 FirstName = e.FirstName,
